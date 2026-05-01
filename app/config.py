@@ -1,5 +1,5 @@
-import os
-from dotenv import load_dotenv
+import os # Importamos para operative system.
+from dotenv import load_dotenv # Importamos dotenv para que load_dotenv() cargue las variables con os.
 
 load_dotenv() 
 
