@@ -4,7 +4,7 @@ from config import ALGORITHM, SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES
 from jose import jwt, JWTError
 from fastapi import status, HTTPException
 
-crypt = CryptContext(schemes=["bcrypt"])
+crypt = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Función para hashear la contraseña.
 def hash_password(password):
