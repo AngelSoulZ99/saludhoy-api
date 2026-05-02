@@ -1,7 +1,8 @@
 # Importaciones.
 from fastapi import FastAPI
-from database import client, db
+from database import client
 from contextlib import asynccontextmanager
+from routers import auth
 
 # Ciclo de vida de la conexión de FastAPI.
 @asynccontextmanager
@@ -15,6 +16,9 @@ async def lifespan(app: FastAPI):
 
 # Creando la instancia de la aplicación.
 app = FastAPI(lifespan=lifespan)
+
+# Routers.
+app.include_router(auth.router)
 
 @app.get("/")
 async def root():
