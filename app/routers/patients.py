@@ -26,7 +26,7 @@ async def search_patient(field: str, key):
 @router.post("/", response_model=PatientResponse, status_code=status.HTTP_201_CREATED)
 async def create_patient(patient: Patient):
     
-    if isinstance(await search_patient("email", patient.email), Patient):
+    if await search_patient("email", patient.email) is not None:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, 
                             detail="El usuario ya existe.")
 

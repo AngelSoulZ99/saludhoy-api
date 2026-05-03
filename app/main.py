@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from database import client
 from contextlib import asynccontextmanager
-from routers import auth, patients
+from routers import auth, patients, doctors
 
 # Ciclo de vida de la conexión de FastAPI.
 @asynccontextmanager
@@ -20,6 +20,7 @@ app = FastAPI(lifespan=lifespan)
 # Routers.
 app.include_router(auth.router)
 app.include_router(patients.router)
+app.include_router(doctors.router)
 
 @app.get("/")
 async def root():
