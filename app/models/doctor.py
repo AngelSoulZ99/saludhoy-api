@@ -15,3 +15,6 @@ class Doctor(BaseModel):
     phones: list[str]
     identification: Identification
     specialties: list[str]
+
+class DoctorStatusUpdate(BaseModel):
+    status: Status
