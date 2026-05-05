@@ -18,3 +18,6 @@ class Doctor(BaseModel):
 
 class DoctorStatusUpdate(BaseModel):
     status: Status
+
+class PhoneUpdate(BaseModel):
+    phone: str
