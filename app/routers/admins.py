@@ -11,7 +11,7 @@ router = APIRouter(prefix="/admins",
                 tags=["admins"],
                 responses={status.HTTP_404_NOT_FOUND: {"message": "No encontrado"}})
 
-# Función para realizar la búsqueda de un doctor.
+# Función para realizar la búsqueda de un administrador.
 async def search_admin(field: str, key):
 
     found_admin = await db.admins.find_one({field: key})
