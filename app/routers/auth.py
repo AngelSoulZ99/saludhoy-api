@@ -10,17 +10,17 @@ router = APIRouter(
     responses={status.HTTP_404_NOT_FOUND: {"message": "No encontrado"}})
 
 async def get_user_by_email(verify_email):
-    user = await db["patient"].find_one({"email": verify_email})
+    user = await db["patients"].find_one({"email": verify_email})
 
     if user is not None:
         return user
     
-    user = await db["doctor"].find_one({"email": verify_email})
+    user = await db["doctors"].find_one({"email": verify_email})
     
     if user is not None:
         return user
     
-    user = await db["admin"].find_one({"email": verify_email})
+    user = await db["admins"].find_one({"email": verify_email})
 
     if user is not None:
         return user
@@ -40,6 +40,6 @@ async def login(form: OAuth2PasswordRequestForm = Depends()):
         raise HTTPException(status.HTTP_400_BAD_REQUEST, 
                             "La contraseña no es correcta.")
 
-    access_token = create_access_token(user["_id"], user["rol"])
+    access_token = create_access_token(str(user["_id"]), user["role"])
 
     return {"access_token": access_token, "token_type": "bearer"}

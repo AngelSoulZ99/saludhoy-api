@@ -1,16 +1,18 @@
 # Importaciones.
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from models.patient import Patient, PhoneUpdate
 from models.patient_response import PatientResponse
 from database import db
 from core.security import hash_password
+from core.dependencies import check_role
 from bson import ObjectId
 from services import phone_service
 
 # Instancia para el router.
 router = APIRouter(prefix="/patients",
                 tags=["patients"],
-                responses={status.HTTP_404_NOT_FOUND: {"message": "No encontrado"}})
+                responses={status.HTTP_404_NOT_FOUND: {"message": "No encontrado"}},
+                dependencies=[Depends(check_role("admin"))])
 
 # Función para realizar la búsqueda de un paciente.
 async def search_patient(field: str, key):

@@ -1,13 +1,15 @@
 # Importaciones.
-from fastapi import HTTPException, status, APIRouter
+from fastapi import HTTPException, status, APIRouter, Depends
 from models.specialty import Specialty
+from core.dependencies import check_role
 from database import db
 from bson import ObjectId
 
 # Instancia para el router.
 router = APIRouter(prefix="/specialties",
                 tags=["specialties"],
-                responses={status.HTTP_404_NOT_FOUND: {"message": "No encontrado"}})
+                responses={status.HTTP_404_NOT_FOUND: {"message": "No encontrado"}},
+                dependencies=[Depends(check_role("admin"))])
 
 # Función para realizar la búsqueda de una especialidad.
 async def search_specialty(field: str, key):

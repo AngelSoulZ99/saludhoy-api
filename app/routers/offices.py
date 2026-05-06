@@ -1,13 +1,15 @@
 # Importaciones.
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Depends
 from models.office import Office
+from core.dependencies import check_role
 from database import db
 from bson import ObjectId
 
 # Instacia para el router.
 router = APIRouter(prefix="/offices",
                 tags=["offices"],
-                responses={status.HTTP_404_NOT_FOUND: {"message": "No encontrado"}})
+                responses={status.HTTP_404_NOT_FOUND: {"message": "No encontrado"}},
+                dependencies=[Depends(check_role("admin"))])
 
 # Función para realizar la búsqueda de un consultorio.
 async def search_office(field: str, key):
