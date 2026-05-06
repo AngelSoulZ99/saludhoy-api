@@ -4,7 +4,7 @@ from models.identification import Identification
 from models.role import Role
 from models.status import Status
 
-class Admin(BaseModel):
+class AdminResponse(BaseModel):
     id: str = Field(alias="_id")
     name: str
     email: str
