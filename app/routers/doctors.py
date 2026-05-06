@@ -1,10 +1,11 @@
 # Importaciones.
 from fastapi import HTTPException, status, APIRouter
-from models.doctor import Doctor, DoctorStatusUpdate
+from models.doctor import Doctor, DoctorStatusUpdate, PhoneUpdate
 from models.doctor_response import DoctorResponse
 from database import db
 from core.security import hash_password
 from bson import ObjectId
+from services import phone_service
 
 # Instancia para el router.
 router = APIRouter(prefix="/doctors",
@@ -88,3 +89,20 @@ async def update_state_doctor(id: str, new_status: DoctorStatusUpdate):
     update_status = await search_doctor("_id", ObjectId(id))
 
     return DoctorResponse(**update_status)
+
+# Endpoint de PATCH de telefonos.
+@router.patch("/phones/{id}", response_model=DoctorResponse)
+async def add_phones_doctor(id:str, new_phone: PhoneUpdate):
+
+    found_doctor = await search_doctor("_id", ObjectId(id))
+
+    if found_doctor is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, 
+                            detail="El doctor no existe.")
+    
+    else:
+        await phone_service.add_phone("doctors", id, new_phone.phone)
+
+    update_doctor = await search_doctor("_id", ObjectId(id))
+
+    return DoctorResponse(**update_doctor)

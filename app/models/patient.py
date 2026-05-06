@@ -16,3 +16,6 @@ class Patient(BaseModel):
     phones: list[str]
     identification: Identification
     medical_history: list[ClinicalNote]
+
+class PhoneUpdate(BaseModel):
+    phone: str
